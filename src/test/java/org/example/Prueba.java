@@ -4,12 +4,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,29 +29,49 @@ public class Prueba {
 
         //definimos tiempo de espera hasta que esperamos un timeout
         firefoxDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        firefoxDriver.manage().window().maximize();
 
     }
 
     @Test
-    public void hacer_una_busqueda(){
+    public void hacer_una_compra() throws InterruptedException {
 
+        firefoxDriver.get("http://automationpractice.com/index.php");
+        WebElement buttonLogin=firefoxDriver.findElement(By.cssSelector(".login"));
+        buttonLogin.click();
 
+        WebElement inputEmail=firefoxDriver.findElement(By.cssSelector("#email"));
+        inputEmail.sendKeys("dsmountreax@gmail.com");
+        WebElement inputPassword = firefoxDriver.findElement(By.cssSelector("#passwd"));
+        inputPassword.sendKeys("Password");
+        WebElement buttonSubmitLogin= firefoxDriver.findElement(By.cssSelector("#SubmitLogin"));
+        buttonSubmitLogin.click();
 
-        //abrimos la pagina
-        firefoxDriver.get("https://www.google.com");
+        WebElement tabTshirt= firefoxDriver.findElement(By.cssSelector(".sf-menu>li:nth-child(3)>a"));
+        tabTshirt.click();
+        // crear accion
 
-        // Encontrar e interactuar con elementos
-        // ingresar texto en el buscador
-        firefoxDriver.findElement(By.cssSelector("[name='q']")).sendKeys("Cantidad de Paises en America");
-        //presionamos la tecla enter
-        firefoxDriver.findElement(By.cssSelector("[name='q']")).sendKeys(Keys.ENTER);
-        // Hacer click
-        firefoxDriver.findElement(By.xpath("//h3[text()='Datos de todos los países de América - DatosMundial']")).click();
+        Actions accion = new Actions(firefoxDriver);
 
-        WebElement subtitulo= firefoxDriver.findElement(By.cssSelector(".floater"));
+        // encontrar imagen del producto
+        WebElement imageTshirt=firefoxDriver.findElement(By.cssSelector("img[title$='T-shirts']"));
+        WebElement buttonAddToCart=firefoxDriver.findElement(By.xpath("//span[text()='Add to cart']"));
 
-        System.out.println(subtitulo.getText());
-        Assert.assertTrue(subtitulo.getText().contains("57"));
+        //accion.moveToElement(imageTshirt).moveToElement(buttonAddToCart).click().build().perform();
+        /*JavascriptExecutor js = (JavascriptExecutor) firefoxDriver;
+        js.executeScript("window.scrollBy(0,600)");
+        accion.moveToElement(imageTshirt).build().perform();
+        buttonAddToCart.click();
+        // pendiente de prueba
+        WebElement botonDeCompra1 =firefoxDriver.findElement(By.xpath("//span[contains(text(),'Proceed to checkout')]"));
+        botonDeCompra1.click();
+
+        WebElement botonDecompra2= firefoxDriver.findElement(By.xpath("//p//*[contains(text(),'Proceed to checkout')]"));
+        botonDecompra2.click();
+        WebElement botonDeCompra3= firefoxDriver.findElement(By.xpath("//button/span[contains(text(),'Proceed to checkout')]"));
+        botonDeCompra3.click();*/
+        // Calse 13 minuto 3.
+
 
     }
 
